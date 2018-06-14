@@ -1,6 +1,6 @@
-FROM alpine:latest
+FROM haskell:8
 
-RUN apk add --no-cache pcre
+RUN apt-get install -y pcre
 
 RUN mkdir /log
 
