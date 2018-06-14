@@ -1,0 +1,33 @@
+version: 2
+jobs:
+  build:
+    docker:
+    - image: haskell:8
+    working_directory: ~/ducking
+    environment:
+      TZ: "/usr/share/zoneinfo/Asia/Shanghai"
+      LOG_LEVEL: ERROR
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+        version: 17.05.0-ce
+    - run:
+        name: Install Docker client
+        command: |
+          set -x
+          VER="17.03.0-ce"
+          curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
+          tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+          mv /tmp/docker/* /usr/bin
+    - run: docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
+    - run: apt-get update
+    - run: apt-get install -qq -y libpcre3 libpcre3-dev build-essential docker-ce --fix-missing --no-install-recommends
+    - run: stack setup
+    - run: stack build
+    - deploy:
+      command: |
+        docker build . -f production.Dockerfile -t mingyang91/ducking:alpine
+        docker push mingyang91/ducking
+
+
