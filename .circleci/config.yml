@@ -12,6 +12,9 @@ jobs:
     - setup_remote_docker:
         docker_layer_caching: true
         version: 17.05.0-ce
+    - restore_cache:
+        keys:
+          - ducking-{{ checksum "stack.yaml" }}
     - run: apt-get update
     - run:
         name: Install Docker client
@@ -26,10 +29,15 @@ jobs:
     - run: apt-get install -qq -y libpcre3 libpcre3-dev build-essential --fix-missing --no-install-recommends
     - run: stack setup
     - run: stack build
+    - save_cache:
+        key: ducking-{{ checksum "stack.yaml" }}
+        paths:
+          - /root/.stack/
+          - .stack
     - deploy:
         name: push
         command: |
-          docker build . -f production.Dockerfile -t mingyang91/ducking:alpine
-          docker push mingyang91/ducking
+          docker build . -f production.Dockerfile -t mingyang91/duckling:alpine
+          docker push mingyang91/duckling
 
 
