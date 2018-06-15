@@ -1,6 +1,7 @@
 FROM haskell:8
 
-RUN apt-get install -y pcre
+RUN apt-get install -qq -y libpcre3 --fix-missing --no-install-recommends
+
 
 RUN mkdir /log
 
