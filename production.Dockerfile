@@ -1,6 +1,6 @@
 FROM debian:stretch
 
-RUN apt-get install -qq -y libpcre3 --fix-missing --no-install-recommends
+RUN apt-get install -qq -y libpcre3 libgmp-dev --fix-missing --no-install-recommends
 
 
 RUN mkdir /log
