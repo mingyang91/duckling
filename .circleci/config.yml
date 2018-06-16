@@ -37,7 +37,7 @@ jobs:
     - deploy:
         name: push
         command: |
-          docker build . -f production.Dockerfile -t mingyang91/duckling:alpine
+          docker build . -f production.Dockerfile -t mingyang91/duckling:debian
           docker push mingyang91/duckling
 
 

@@ -1,6 +1,7 @@
-FROM alpine:latest
+FROM debian:stretch
 
-RUN apk add --no-cache pcre
+RUN apt-get install -qq -y libpcre3 --fix-missing --no-install-recommends
+
 
 RUN mkdir /log
 
