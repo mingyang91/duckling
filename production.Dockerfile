@@ -1,7 +1,6 @@
-FROM haskell:8
+FROM alpine:latest
 
-RUN apt-get install -qq -y libpcre3 --fix-missing --no-install-recommends
-
+RUN apk add --no-cache pcre
 
 RUN mkdir /log
 
@@ -11,3 +10,4 @@ COPY .stack-work/install/x86_64-linux/lts-9.10/8.0.2/bin/duckling-example-exe /d
 EXPOSE 8000
 
 CMD /duckling/duckling-example-exe
+
